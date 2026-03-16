@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -S . -B out/build -A x64
+
+      - name: Build
+        run: cmake --build out/build --config Debug
+
+      - name: Run tests
+        run: .\out\build\Debug\kvstore_tests.exe
